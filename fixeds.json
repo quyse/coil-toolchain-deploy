@@ -1,0 +1,11 @@
+{
+  "fetchurl": {
+    "https://truststore.pki.rds.amazonaws.com/global/global-bundle.pem": {
+      "etag": "\"9031729542490362953ad9fd5df5a803\"",
+      "last-modified": "Wed, 26 May 2021 00:29:43 GMT",
+      "name": "global-bundle.pem",
+      "sha256": "0mx5w57flh1fssmg0ifwm00gr8i50r3h1d87k7kfl6fm4693lxcn",
+      "url": "https://truststore.pki.rds.amazonaws.com/global/global-bundle.pem"
+    }
+  }
+}
