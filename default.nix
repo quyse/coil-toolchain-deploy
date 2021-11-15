@@ -6,8 +6,12 @@
 }:
 
 rec {
+  terraform = import ./terraform.nix {
+    inherit pkgs lib;
+  };
+
   aws = import ./aws.nix {
-    inherit pkgs lib fixeds;
+    inherit pkgs fixeds terraform;
   };
 
   autoUpdateScript = toolchain.autoUpdateFixedsScript fixedsFile;
