@@ -14,6 +14,10 @@ rec {
     inherit pkgs fixeds terraform;
   };
 
+  static = import ./static.nix {
+    inherit pkgs terraform;
+  };
+
   autoUpdateScript = toolchain.autoUpdateFixedsScript fixedsFile;
 
   touch = {
