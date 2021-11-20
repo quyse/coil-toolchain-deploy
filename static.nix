@@ -139,7 +139,6 @@ in rec {
           const re = /^([^\t]+)\t+([^\t]+)$/.exec(line);
           if(!re) return;
           const mime = re[1], exts = re[2];
-          console.error(mime, exts);
           for(const ext of (exts || "").split(' ')) {
             ext2mime[ext] = mime;
           }
