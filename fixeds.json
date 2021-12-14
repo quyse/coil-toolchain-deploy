@@ -1,10 +1,10 @@
 {
   "fetchurl": {
     "https://truststore.pki.rds.amazonaws.com/global/global-bundle.pem": {
-      "etag": "\"9031729542490362953ad9fd5df5a803\"",
-      "last-modified": "Wed, 26 May 2021 00:29:43 GMT",
+      "etag": "\"3c0110cb15c0b37143f4d6741abddb5f\"",
+      "last-modified": "Mon, 13 Dec 2021 19:02:42 GMT",
       "name": "global-bundle.pem",
-      "sha256": "0mx5w57flh1fssmg0ifwm00gr8i50r3h1d87k7kfl6fm4693lxcn",
+      "sha256": "01626l999ll09w4qv4fkxhnn2h53573b9qykl0sqxf5fmfxj3ybm",
       "url": "https://truststore.pki.rds.amazonaws.com/global/global-bundle.pem"
     }
   }
