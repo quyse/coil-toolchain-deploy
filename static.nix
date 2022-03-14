@@ -65,28 +65,14 @@ in rec {
       # S3 bucket
       resource.aws_s3_bucket.bucket = {
         bucket = ref "local.s3_bucket_name";
-        acl = "public-read";
-        policy = ref "data.aws_iam_policy_document.bucket.json";
       };
-      data.aws_iam_policy_document.bucket = {
-        statement = {
-          sid = "PublicRead";
-          actions = [
-            "s3:GetObject"
-            "s3:GetObjectVersion"
-          ];
-          principals = [
-            {
-              type = "*";
-              identifiers = ["*"];
-            }
-          ];
-          resources = ["arn:aws:s3:::${ref "local.s3_bucket_name"}/*"];
-        };
+      resource.aws_s3_bucket_acl.bucket = {
+        bucket = ref "aws_s3_bucket.bucket.id";
+        acl = "public-read";
       };
 
       # files in S3
-      resource.aws_s3_bucket_object = let
+      resource.aws_s3_object = let
         f = path: file: lib.nameValuePair "file_${builtins.hashString "sha256" path}" {
           bucket = ref "aws_s3_bucket.bucket.id";
           key = path;

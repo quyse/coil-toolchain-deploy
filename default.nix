@@ -14,6 +14,10 @@ rec {
     inherit pkgs fixeds terraform;
   };
 
+  cloudflare = import ./cloudflare {
+    inherit pkgs fixeds;
+  };
+
   static = import ./static.nix {
     inherit pkgs terraform;
   };
@@ -22,6 +26,7 @@ rec {
 
   touch = {
     aws-rds-rootCertBundle = aws.rds.rootCertBundle;
+    cloudflare-originCertEcc = cloudflare.originCertEcc;
 
     inherit autoUpdateScript;
   };

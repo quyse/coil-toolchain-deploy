@@ -1,5 +1,11 @@
 {
   "fetchurl": {
+    "https://developers.cloudflare.com/ssl/static/origin_ca_ecc_root.pem": {
+      "etag": "\"4440f786bc66c9579f7d852231a35271\"",
+      "name": "origin_ca_ecc_root.pem",
+      "sha256": "175gnxq5msjn7zkb4ialld8mjwfp6mn75hdi8s8ggyhqk6rcamna",
+      "url": "https://developers.cloudflare.com/ssl/static/origin_ca_ecc_root.pem"
+    },
     "https://truststore.pki.rds.amazonaws.com/global/global-bundle.pem": {
       "etag": "\"3c0110cb15c0b37143f4d6741abddb5f\"",
       "last-modified": "Mon, 13 Dec 2021 19:02:42 GMT",
