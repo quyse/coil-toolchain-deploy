@@ -7,10 +7,10 @@
       "url": "https://developers.cloudflare.com/ssl/static/origin_ca_ecc_root.pem"
     },
     "https://truststore.pki.rds.amazonaws.com/global/global-bundle.pem": {
-      "etag": "\"3c0110cb15c0b37143f4d6741abddb5f\"",
-      "last-modified": "Mon, 13 Dec 2021 19:02:42 GMT",
+      "etag": "\"7042adf9a60c126d11e0bf886f93baf3\"",
+      "last-modified": "Thu, 02 Jun 2022 22:10:35 GMT",
       "name": "global-bundle.pem",
-      "sha256": "01626l999ll09w4qv4fkxhnn2h53573b9qykl0sqxf5fmfxj3ybm",
+      "sha256": "13m0hjb12l564950kgwi03zrazhjs07vkih3apw0a76pz098gbxc",
       "url": "https://truststore.pki.rds.amazonaws.com/global/global-bundle.pem"
     }
   }
