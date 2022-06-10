@@ -67,14 +67,20 @@ rec {
       # access.log is a symlink to /dev/stdout in docker image
       access_log  /var/log/nginx/access.log  main;
 
-      sendfile        on;
+      sendfile            on;
 
-      keepalive_timeout  65;
+      keepalive_timeout   65;
 
-      if_modified_since   off; # fix bad caching, everything has mtime=0 in nix store
-      etag                off; # etag is also generated from mtime
+      map $realpath_root $nix_store_hash {
+        "~^\/nix\/store\/(?<hash>.{32})" $hash;
+      }
 
       include /conf.d/*.conf;
     }
+  '';
+
+  serveNixStoreConfig = ''
+    if_modified_since   off; # fix bad caching, everything has mtime=0 in nix store
+    add_header          etag '"$nix_store_hash"';
   '';
 }
