@@ -6,6 +6,10 @@
 }:
 
 rec {
+  util = import ./util.nix {
+    inherit pkgs lib;
+  };
+
   terraform = import ./terraform.nix {
     inherit pkgs lib;
   };
@@ -20,6 +24,10 @@ rec {
 
   static = import ./static.nix {
     inherit pkgs terraform;
+  };
+
+  nginx = import ./nginx.nix {
+    inherit pkgs util;
   };
 
   autoUpdateScript = toolchain.autoUpdateFixedsScript fixedsFile;

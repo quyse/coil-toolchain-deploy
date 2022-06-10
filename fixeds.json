@@ -1,5 +1,11 @@
 {
   "fetchurl": {
+    "https://developers.cloudflare.com/ssl/static/authenticated_origin_pull_ca.pem": {
+      "etag": "\"b0b28c5a814263fa93aebdb1a3803323\"",
+      "name": "authenticated_origin_pull_ca.pem",
+      "sha256": "0hxqszqfzsbmgksfm6k0gp0hsx9k1gqx24gakxqv0391wl6fsky1",
+      "url": "https://developers.cloudflare.com/ssl/static/authenticated_origin_pull_ca.pem"
+    },
     "https://developers.cloudflare.com/ssl/static/origin_ca_ecc_root.pem": {
       "etag": "\"4440f786bc66c9579f7d852231a35271\"",
       "name": "origin_ca_ecc_root.pem",
