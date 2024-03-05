@@ -18,7 +18,7 @@ rec {
     escapedPath = lib.escapeShellArg path;
   in pkgs.writeShellScript "pin" ''
     set -eu
-    ln -sf ${lib.escapeShellArg obj} ${escapedPath}
-    ln -sf ${escapedPath} /nix/var/nix/gcroots/auto/pin-${hash}
+    ln -sfT ${lib.escapeShellArg obj} ${escapedPath}
+    ln -sfT ${escapedPath} /nix/var/nix/gcroots/auto/pin-${hash}
   '';
 }
