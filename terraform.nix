@@ -5,7 +5,7 @@
 rec {
   ref = r: ''''${${r}}'';
 
-  toFile = name: obj: pkgs.runCommand "${name}.tf.json" {} ''
+  toFile = name: obj: pkgs.runCommandLocal "${name}.tf.json" {} ''
     ${pkgs.jq}/bin/jq < ${pkgs.writeText "${name}.tf.json" (builtins.toJSON obj)} > $out
   '';
 
