@@ -30,6 +30,11 @@ rec {
     inherit pkgs util;
   };
 
+  modules = {
+    aws = import ./modules/aws.nix;
+    aws-zfs = import ./modules/aws-zfs.nix;
+  };
+
   autoUpdateScript = toolchain.autoUpdateFixedsScript fixedsFile;
 
   touch = {
