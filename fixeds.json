@@ -13,10 +13,10 @@
       "url": "https://developers.cloudflare.com/ssl/static/origin_ca_ecc_root.pem"
     },
     "https://truststore.pki.rds.amazonaws.com/global/global-bundle.pem": {
-      "etag": "\"3f83e356c467e7be976b73a27dc4f82f\"",
-      "last-modified": "Wed, 11 Sep 2024 23:57:09 GMT",
+      "etag": "\"fe4663f2c4228ceebdd0f9fb0751146c\"",
+      "last-modified": "Sat, 09 Nov 2024 01:00:44 GMT",
       "name": "global-bundle.pem",
-      "sha256": "1pjfj3a6q05vy4s6832dp73acrgbrcxc6wir877vl3naxrf64azd",
+      "sha256": "1wjgn6ry3n41p4m0arwii4r51mw35d1fd37g1mdfqn1f7s0xq3rr",
       "url": "https://truststore.pki.rds.amazonaws.com/global/global-bundle.pem"
     }
   }
