@@ -1,4 +1,5 @@
 # this module adds an attribute for generating AWS ZFS image
+# also supports auto formatting ephemeral storage as an additional ZFS pool
 { config, pkgs, lib, modulesPath, ... }: let
 
   cfg = config.coil.aws.zfs;
@@ -6,6 +7,13 @@
   # this is only for initial creation of the image
   # only depends on the QEMU command line below
   bootDisk = "/dev/vda";
+
+  ephemeralFileSystems = lib.pipe config.fileSystems [
+    (lib.mapAttrsToList (name: fs: fs))
+    (lib.filter (fs: fs.fsType == "zfs" && lib.head (lib.splitString "/" fs.device) == cfg.ephemeral.poolName))
+    (map (fs: fs.device))
+    (lib.sort (a: b: a < b))
+  ];
 
 in {
   imports = [
@@ -33,6 +41,21 @@ in {
     mainPartLabel = mkOption {
       type = types.str;
       default = "main";
+    };
+    # formatting ephemeral storage
+    ephemeral = {
+      enable = mkOption {
+        type = types.bool;
+        default = true;
+      };
+      poolName = mkOption {
+        type = types.str;
+        default = "ephemeral";
+      };
+      disableSync = mkOption {
+        type = types.bool;
+        default = true;
+      };
     };
   };
 
@@ -128,5 +151,48 @@ in {
         };
       })
     ]).config.system.build.coil.image-helper.bootImage_vhd;
+
+    # prepare ephemeral pool
+    systemd.services."zfs-prepare-${cfg.ephemeral.poolName}" = lib.mkIf cfg.ephemeral.enable {
+      requiredBy = ["zfs-import-${cfg.ephemeral.poolName}.service"];
+      before = ["zfs-import-${cfg.ephemeral.poolName}.service"];
+      unitConfig.DefaultDependencies = false;
+      serviceConfig = {
+        Type = "oneshot";
+        RemainAfterExit = true;
+      };
+      script = ''
+        set -euo pipefail
+        echo 'determining ephemeral block devices...'
+        BLOCK_DEVICES="$(nvme list -o json | jq -r '.Devices[]|select(.ModelNumber|test("Instance Storage")).DevicePath')"
+
+        if [ -n "$BLOCK_DEVICES" ]
+        then
+          echo ${lib.escapeShellArg "creating ephemeral zpool '${cfg.ephemeral.poolName}'..."}
+          zpool create -f \
+            -O mountpoint=legacy \
+            -O atime=on \
+            -O relatime=on \
+            -O xattr=sa \
+            -O acltype=posixacl \
+            -O compression=on \
+            ${lib.optionalString cfg.ephemeral.disableSync "-O sync=disabled"} \
+            -o ashift=12 \
+            -o autotrim=on \
+            ${lib.escapeShellArg cfg.ephemeral.poolName} \
+            $BLOCK_DEVICES
+
+          ${lib.concatMapStrings (fs: ''
+            echo ${lib.escapeShellArg "creating ephemeral zfs '${fs}'..."}
+            zfs create ${lib.escapeShellArg fs}
+          '') ephemeralFileSystems}
+        fi
+      '';
+      path = with pkgs; [
+        jq
+        nvme-cli
+        zfs
+      ];
+    };
   };
 }
