@@ -111,6 +111,7 @@ in {
               align-check optimal 3 \
               print
             mkfs.vfat -F 32 -n ${cfg.bootPartLabel} ${bootDisk}2
+            while [ ! -b /dev/disk/by-partlabel/${cfg.mainPartLabel} ]; do sleep 1; done
             zpool create \
               -O mountpoint=legacy \
               -O atime=on \
