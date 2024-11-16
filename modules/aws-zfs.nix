@@ -42,6 +42,10 @@ in {
       type = types.str;
       default = "main";
     };
+    poolName = mkOption {
+      type = types.str;
+      default = "tank";
+    };
     # formatting ephemeral storage
     ephemeral = {
       enable = mkOption {
@@ -63,11 +67,11 @@ in {
     # only for initial creation of boot disk
     boot.loader.grub.device = bootDisk;
     fileSystems."/" = {
-      device = "tank/root";
+      device = "${cfg.poolName}/root";
       fsType = "zfs";
     };
     fileSystems."/tmp" = {
-      device = "tank/tmp";
+      device = "${cfg.poolName}/tmp";
       fsType = "zfs";
     };
     fileSystems."/boot" = {
@@ -121,17 +125,17 @@ in {
               -O compression=on \
               -o ashift=12 \
               -o autotrim=on \
-              tank \
+              ${cfg.poolName} \
               /dev/disk/by-partlabel/${cfg.mainPartLabel}
-            zfs create tank/root
-            zfs create -o sync=disabled tank/tmp
+            zfs create ${cfg.poolName}/root
+            zfs create -o sync=disabled ${cfg.poolName}/tmp
 
             echo "mounting disks..."
             mkdir /mnt
-            mount -t zfs tank/root /mnt
+            mount -t zfs ${cfg.poolName}/root /mnt
             mkdir -p /mnt/{boot,tmp}
             mount ${bootDisk}2 /mnt/boot
-            mount -t zfs tank/tmp /mnt/tmp
+            mount -t zfs ${cfg.poolName}/tmp /mnt/tmp
 
             echo "installing NixOS..."
             nix-store --load-db < ${pkgs.closureInfo {
