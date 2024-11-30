@@ -6,10 +6,11 @@ rec {
   remoteRunScript = script: pkgs.writeShellScript "remote-run" ''
     set -eu
     REMOTE="''${1:?first argument required: user@server}"
+    shift
     echo "Copying script closure to ''${REMOTE}..."
-    nix-copy-closure --to "''${REMOTE}" "${script}"
+    nix-copy-closure --to "''${REMOTE}" ${lib.escapeShellArg script}
     echo "Executing remote script on ''${REMOTE}..."
-    ssh "''${REMOTE}" "${script}"
+    ssh "''${REMOTE}" ${lib.escapeShellArg script} "$@"
     echo "remote run exit code: $?"
   '';
 
