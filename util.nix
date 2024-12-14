@@ -7,11 +7,11 @@ rec {
     set -eu
     REMOTE="''${1:?first argument required: user@server}"
     shift
-    echo "Copying script closure to ''${REMOTE}..."
+    echo "Copying script closure to ''${REMOTE}..." >&2
     nix-copy-closure --to "''${REMOTE}" ${lib.escapeShellArg script}
-    echo "Executing remote script on ''${REMOTE}..."
+    echo "Executing remote script on ''${REMOTE}..." >&2
     ssh "''${REMOTE}" ${lib.escapeShellArg script} "$@"
-    echo "remote run exit code: $?"
+    echo "remote run exit code: $?" >&2
   '';
 
   pinScript = path: obj: let
