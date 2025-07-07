@@ -35,6 +35,10 @@
     # Enable the serial console on ttyS0
     systemd.services."serial-getty@ttyS0".enable = true;
 
+    # https://github.com/NixOS/nixpkgs/issues/312452#issuecomment-2612016529
+    console.earlySetup = true;
+    systemd.services.systemd-vconsole-setup.after = ["local-fs.target"];
+
     # Creates symlinks for block device names.
     services.udev.packages = [pkgs.amazon-ec2-utils];
 
