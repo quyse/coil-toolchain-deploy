@@ -169,7 +169,7 @@ in {
       script = ''
         set -euo pipefail
         echo 'determining ephemeral block devices...'
-        BLOCK_DEVICES="$(nvme list -o json | jq -r '.Devices[]|select(.ModelNumber|test("Instance Storage")).DevicePath')"
+        BLOCK_DEVICES="$(nvme list -o json | jq -r '.Devices[].Subsystems[].Controllers[]|select(.ModelNumber|test("Instance Storage")).Namespaces[]|"/dev/\(.NameSpace)"')"
 
         if [ -n "$BLOCK_DEVICES" ]
         then
