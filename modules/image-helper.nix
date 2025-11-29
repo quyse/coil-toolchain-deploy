@@ -110,8 +110,7 @@ in {
           -name aws-split-image-gen \
           -cpu host -enable-kvm \
           -m 8G \
-          -machine type=q35,accel=kvm,memory-backend=pc.ram \
-          -object memory-backend-file,id=pc.ram,size=8G,mem-path=pc.ram,prealloc=off,share=on,discard-data=on \
+          -machine type=q35,accel=kvm \
           -nographic \
           -no-reboot \
           -virtfs local,path=$(readlink -f data),security_model=none,mount_tag=data \
