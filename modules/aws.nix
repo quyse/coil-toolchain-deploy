@@ -30,6 +30,7 @@
       path = [pkgs.curl];
       script = builtins.readFile "${modulesPath}/virtualisation/ec2-metadata-fetcher.sh";
       serviceConfig.Type = "oneshot";
+      serviceConfig.RemainAfterExit = true;
     };
 
     # Enable the serial console on ttyS0
