@@ -61,6 +61,13 @@ in {
         default = true;
       };
     };
+    rollbackRootFsOnBoot = {
+      enable = mkEnableOption "rollback root fs to initial snapshot on boot";
+      snapshotName = mkOption {
+        type = types.str;
+        default = "initial";
+      };
+    };
   };
 
   config = {
@@ -149,6 +156,9 @@ in {
               --no-channel-copy
 
             echo "finishing..."
+            ${lib.optionalString cfg.rollbackRootFsOnBoot.enable ''
+              zfs snapshot ${cfg.poolName}/root@${cfg.rollbackRootFsOnBoot.snapshotName}
+            ''}
             umount /mnt/tmp
             umount /mnt/boot
             umount /mnt
@@ -196,6 +206,25 @@ in {
       path = with pkgs; [
         jq
         nvme-cli
+        zfs
+      ];
+    };
+
+    # rollback root fs to initial snapshot
+    systemd.services.zfs-initial-rollback = lib.mkIf cfg.rollbackRootFsOnBoot.enable {
+      requires = ["zfs-import.target"];
+      after = ["zfs-import.target"];
+      requiredBy = ["-.mount"];
+      before = ["-.mount"];
+      unitConfig.DefaultDependencies = false;
+      serviceConfig = {
+        Type = "oneshot";
+        RemainAfterExit = true;
+      };
+      script = ''
+        zfs rollback ${cfg.poolName}/root@${cfg.rollbackRootFsOnBoot.snapshotName}
+      '';
+      path = with pkgs; [
         zfs
       ];
     };
